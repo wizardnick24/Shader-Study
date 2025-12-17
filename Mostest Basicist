@@ -1,0 +1,89 @@
+Shader "Custom/BasicColorWithComments" 
+{
+    // Properties block lets you expose variables to the Unity Inspector
+    // This allows designers (or you) to tweak values without changing code
+    Properties
+    {
+        // _Color is a color property you can change in the Inspector
+        // The default value is white (1,1,1,1) where the last 1 is alpha (opacity)
+        _Color("Color", Color) = (1,1,1,1)
+    }
+
+    // SubShader contains the actual rendering instructions
+    // Unity can have multiple SubShaders for different hardware, but we'll use one
+    SubShader
+    {
+        // Tags tell Unity how to categorize the shader
+        // "Opaque" means this object is fully solid and doesn't need transparency sorting
+        Tags { "RenderType"="Opaque" }
+
+        // LOD (Level of Detail) is a performance hint; 100 is very basic
+        LOD 100
+
+        // Pass defines a single rendering pass
+        // For simple shaders, one pass is enough
+        Pass
+        {
+            // Begin CGPROGRAM block; this is where the GPU shader code lives
+            // Unity uses a Cg/HLSL variant for compatibility
+            CGPROGRAM
+
+            // Tell Unity which functions are the vertex and fragment shaders
+            // Vertex shader: transforms vertices
+            // Fragment shader: determines color of each pixel
+            #pragma vertex vert
+            #pragma fragment frag
+
+            // ------------------------------------------
+            // Define the data structures for input and output
+            // ------------------------------------------
+
+            // appdata is input per vertex from Unity
+            struct appdata
+            {
+                // Each vertex has a position in 3D space
+                float4 vertex : POSITION;
+            };
+
+            // v2f is the structure that goes from vertex shader to fragment shader
+            struct v2f
+            {
+                // SV_POSITION is the built-in semantic for clip space position
+                float4 pos : SV_POSITION;
+            };
+
+            // Define the color variable from Properties
+            // 'fixed4' means 4-component vector (RGBA) optimized for color
+            fixed4 _Color;
+
+            // ------------------------------------------
+            // Vertex Shader: 'vert'
+            // ------------------------------------------
+            v2f vert(appdata v)
+            {
+                // Create output structure
+                v2f o;
+
+                // UnityObjectToClipPos converts object space vertex to clip space
+                // Clip space is what the GPU uses to render objects on screen
+                o.pos = UnityObjectToClipPos(v.vertex);
+
+                // Return transformed vertex
+                return o;
+            }
+
+            // ------------------------------------------
+            // Fragment Shader: 'frag'
+            // ------------------------------------------
+            fixed4 frag(v2f i) : SV_Target
+            {
+                // Every pixel simply returns the _Color value
+                // This is the simplest shader possible: flat, uniform color
+                return _Color;
+            }
+
+            // End of GPU program block
+            ENDCG
+        }
+    }
+}
