@@ -1,0 +1,35 @@
+using UdonSharp;
+using UnityEngine;
+using VRC.SDKBase;
+using VRC.Udon;
+
+public class IceCubeFogController : UdonSharpBehaviour
+{
+    public Renderer fogRenderer;    // The cylinder or fog mesh renderer
+    [Tooltip("Does the cup have liquid?")]
+    public bool hasLiquid = false;  // True if the cup contains liquid
+
+    [Tooltip("Optional smooth fade speed")]
+    public float fadeSpeed = 2f;
+
+    private float targetAlpha = 0f;
+    private float currentAlpha = 0f;
+
+    void Update()
+    {
+        // Determine target alpha based on liquid state
+        targetAlpha = hasLiquid ? 1f : 0f;
+
+        // Smoothly fade fog in/out
+        currentAlpha = Mathf.Lerp(currentAlpha, targetAlpha, Time.deltaTime * fadeSpeed);
+
+        // Update shader
+        fogRenderer.material.SetFloat("_AlphaMultiplier", currentAlpha);
+    }
+
+    // Optional: public methods to control from other scripts
+    public void SetLiquidState(bool state)
+    {
+        hasLiquid = state;
+    }
+}
