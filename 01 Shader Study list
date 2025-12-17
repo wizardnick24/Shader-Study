@@ -1,0 +1,611 @@
+1–50: Audio-Reactive / Beat-Synced Shaders
+
+Floor pulse with bass
+
+Wall glow on beats
+
+Ceiling light strobe
+
+Laser beam intensity modulation
+
+Spectrum visualizer tiles
+
+Particle emission pulsing with music
+
+Neon bar color change with audio
+
+Stage outline brightness modulation
+
+Emissive cubes pulsing
+
+Dancefloor tiles pulsing in sequence
+
+Kaleidoscope skybox sync
+
+Audio-driven lens flare
+
+Animated light strips
+
+Beat-synced fog density
+
+Pulse ripple across floor
+
+Audio reactive wall waves
+
+Column light intensity
+
+Disco ball reflection pulses
+
+Laser direction wobble with beat
+
+Rotating prism beams
+
+Particle trails modulated by bass
+
+Drum kick flash panels
+
+Treble wave emitter
+
+Synth wave color gradient
+
+Music reactive trails on players
+
+Audio-reactive floor smoke
+
+Pulse color cycling
+
+Equalizer bar panels
+
+Neon sign brightness pulses
+
+Ribbon trail effect
+
+Audio-reactive particles
+
+Refractive floor tiles pulsing
+
+Bass-driven water shader
+
+Pulse ripple from audio source
+
+Emissive fog pulsing
+
+Wall grid glow with music
+
+Pulse halo around objects
+
+Audio-driven sprite sheet animation
+
+Stage border flashes
+
+Beat-synced particle cone
+
+Audio reactive lens distortion
+
+Frequency-driven light waves
+
+Spectrum-based vertex displacement
+
+Drum floor impact ripple
+
+Pulse oscillating edges
+
+Laser beam width modulator
+
+Audio reactive reflections
+
+Audio driven holographic grid
+
+Pulse emitter for drinks/props
+
+Reactive trailing glow around dancers
+
+51–100: Emissive / Glow / Neon Shaders
+
+Neon tubes
+
+Glow wall panels
+
+Emissive cubes
+
+Neon signage
+
+Edge glow on props
+
+Pulsing neon patterns
+
+Emissive lines on stage edges
+
+Glow strips on floors
+
+Neon stairs
+
+Wall graffiti glow
+
+Rotating neon rings
+
+Emissive control panels
+
+Color-shifting neon pipes
+
+Glow outlines for players
+
+Lighted floor patterns
+
+Rotating neon cubes
+
+Trail glow behind objects
+
+Emissive ceiling tiles
+
+Neon wireframe grids
+
+Glow particle orbs
+
+Reflective neon walls
+
+Animated neon signs
+
+Pulsing neon squares
+
+Gradient neon walls
+
+Neon panels on columns
+
+Interactive glow buttons
+
+Glowing holographic panels
+
+Neon wireframe spheres
+
+Pulsing floor hex tiles
+
+Emissive trees/plants
+
+Glow edges for doors
+
+Light strip trails
+
+Emissive text objects
+
+Glow bouncing off floors
+
+Neon rails for staircases
+
+Pulsing line trails
+
+Halo glow for avatars
+
+Glowing UI elements
+
+Interactive glow cubes
+
+Emissive floating panels
+
+Neon mesh outlines
+
+Rotating neon pyramids
+
+Gradient glow on columns
+
+Light pulses along ceiling
+
+Glow ripple for drinks
+
+Animated neon spirals
+
+Glow trails on projectiles
+
+Emissive rings
+
+Neon checkerboard floors
+
+Color cycling walls
+
+101–150: Water / Liquid / Surface Shaders
+
+Pool water
+
+Liquid in cups
+
+Ice cube frost shader
+
+Puddle reflections
+
+Liquid spill shader
+
+Pouring drink ripples
+
+Waterfall shader
+
+Bubble animations
+
+Drip trails
+
+Flowing neon liquid
+
+Liquid rainbow shader
+
+Reflective water surface
+
+Audio reactive water waves
+
+Foam and splash
+
+Frosted glass liquid
+
+Lava floor
+
+Oil slick shader
+
+Metallic liquid shader
+
+Viscous liquid trails
+
+Drip impact ripple
+
+Interactive swimming pool shader
+
+Transparent drink shader
+
+Animated bubbles
+
+Water plane with waves
+
+Neon liquid streaks
+
+Frost mist above water
+
+Liquid refraction
+
+Rain droplets shader
+
+Pouring animation shader
+
+Ripple shader from objects
+
+Pool light caustics
+
+Audio-reactive surface waves
+
+Liquid swirl shader
+
+Interactive liquid fill
+
+Soft splash shader
+
+Drunk cup wobble refraction
+
+Ice cube fog shader
+
+Flowing energy liquid
+
+Interactive drink foam
+
+Liquid surface distortion
+
+Glowing cocktail shader
+
+Reflective bar top
+
+Pour animation shader
+
+Neon water floor
+
+Steam rising shader
+
+Semi-transparent frozen liquid
+
+Glitter liquid shader
+
+Spilled neon liquid
+
+Drip trail animation
+
+Dynamic caustics
+
+151–200: Fog / Smoke / Particle Shaders
+
+Stage fog
+
+Low floor fog
+
+Smoke from vents
+
+Dry ice fog
+
+Fire smoke
+
+Colored fog
+
+Audio reactive fog
+
+Rising steam
+
+Particle mist
+
+Glow fog
+
+Firefly particles
+
+Confetti particle shader
+
+Sparkle particles
+
+Laser fog shader
+
+Smoke trails
+
+Light cone fog
+
+Rising vapor shader
+
+Fog with color gradient
+
+Fog ripple shader
+
+Interactive breath vapor
+
+Fireworks shader
+
+Floating holographic particles
+
+Music-synced dust
+
+Candle smoke shader
+
+Fog density shader
+
+Fog transparency modulation
+
+Spark emission
+
+Rotating particle clouds
+
+Rainbow mist
+
+Smoke rings shader
+
+Neon fog shader
+
+Audio-driven particle density
+
+Strobe fog effect
+
+Flowing fog shader
+
+Ember particle shader
+
+Sparks from floor
+
+Glow smoke trails
+
+Sparkle hover shader
+
+Rising confetti
+
+Audio reactive mist
+
+Volumetric fog shader
+
+Fire particle ring
+
+Interactive fog puffs
+
+Rising smoke columns
+
+Flammable sparks
+
+Firework trails
+
+Steam trail from drinks
+
+Disco dust shader
+
+Breath cloud shader
+
+Smoke caustics
+
+201–250: Kaleidoscope / Abstract / Psychedelic Shaders
+
+Kaleidoscope walls
+
+Rotating fractals
+
+Audio-reactive kaleidoscope
+
+Pixelated visualizer
+
+Mirror plane shader
+
+UV wave distortion
+
+Procedural floor fractals
+
+Spinning radial pattern
+
+Trippy wall reflections
+
+Animated spirals
+
+Psychedelic floor shader
+
+Neon vortex
+
+Rotating tiled kaleidoscope
+
+Fractal tunnel shader
+
+Color cycling wall
+
+Animated waves
+
+Liquid kaleidoscope
+
+Strobe fractals
+
+Animated checkerboard
+
+Spiral floor pattern
+
+Pulsing polygons
+
+Rotating triangles
+
+Procedural hex tiles
+
+Rotating UV distortion
+
+Twisting floor shader
+
+Psychedelic gradient
+
+Color morphing cubes
+
+Audio reactive pattern
+
+Spiral neon tubes
+
+Reflective fractals
+
+Repeating triangles shader
+
+Symmetry mirroring shader
+
+Fractal skybox shader
+
+Pulsing concentric rings
+
+Tunnel illusion shader
+
+Rotating vortex
+
+Grid wave shader
+
+Waveform floor pattern
+
+Dynamic UV rotation
+
+Animated polygons
+
+Neon swirl shader
+
+UV kaleidoscope with distortion
+
+Procedural star patterns
+
+Color pulse wave shader
+
+Spiral neon rings
+
+Rotating diamond tiles
+
+Vertex offset kaleidoscope
+
+Glow fractals
+
+Strobing pattern shader
+
+Procedural wave floor
+
+251–300: Distortion / Post-Processing / Screen Effects
+
+Drunk goggles effect
+
+Fisheye lens
+
+Radial blur
+
+Motion blur
+
+Chromatic aberration
+
+Screen wobble
+
+Heat haze shader
+
+Screen ripple
+
+Distorted mirrors
+
+Refraction screen shader
+
+Pixelation effect
+
+Swirl screen shader
+
+Glitch effect
+
+Scanline overlay
+
+Vignette glow shader
+
+Post-process bloom
+
+Color grading shader
+
+Holographic overlay
+
+CRT screen shader
+
+Ghosting shader
+
+Warp tunnel shader
+
+Screen shake shader
+
+Portal distortion
+
+Water refraction overlay
+
+Lens distortion shader
+
+Twirl effect
+
+Wave distortion shader
+
+Fading RGB channels
+
+Heat shimmer floor
+
+Color inversion shader
+
+Edge detection overlay
+
+Procedural lens flare
+
+Reflection distortion
+
+Fresnel rim effect
+
+Audio-driven screen pulse
+
+Light streak shader
+
+Ripple post-effect
+
+Screen trail shader
+
+Glowing scanlines
+
+Pixel stretching shader
+
+Kaleidoscope post-process
+
+Glitch scan shader
+
+Hologram distortion
+
+Screen UV rotation
+
+Dynamic reflection shader
+
+Light refraction overlay
+
+Shader-based bloom trails
+
+Interactive distortion zones
+
+Player camera warp
+
+Subtle drunken haze
