@@ -1,0 +1,33 @@
+using UdonSharp;
+using UnityEngine;
+using VRC.SDKBase;
+using VRC.Udon;
+
+public class AudioReactiveSkybox : UdonSharpBehaviour
+{
+    public Material skyboxMaterial;  // Material using the kaleidoscope shader
+    public AudioSource audioSource;
+    public int sampleSize = 64;
+    public float sensitivity = 5f;
+
+    private float[] spectrum;
+
+    void Start()
+    {
+        spectrum = new float[sampleSize];
+    }
+
+    void Update()
+    {
+        audioSource.GetSpectrumData(spectrum, 0, FFTWindow.BlackmanHarris);
+
+        float sum = 0f;
+        for (int i = 0; i < spectrum.Length; i++)
+            sum += spectrum[i];
+
+        float level = Mathf.Clamp01(sum / spectrum.Length * sensitivity);
+
+        // Update shader
+        skyboxMaterial.SetFloat("_AudioLevel", level);
+    }
+}
