@@ -1,0 +1,38 @@
+using UdonSharp;
+using UnityEngine;
+using VRC.SDKBase;
+using VRC.Udon;
+
+public class AudioSpectrogram : UdonSharpBehaviour
+{
+    public Renderer targetRenderer;      // Renderer to animate
+    public AudioSource audioSource;      // Audio source to sample
+    public int sampleSize = 64;          // How many frequency bins to sample
+    public float sensitivity = 10f;      // Amplify response
+
+    private float[] spectrumData;
+
+    void Start()
+    {
+        // Initialize spectrum array
+        spectrumData = new float[sampleSize];
+    }
+
+    void Update()
+    {
+        // Get spectrum data from AudioSource
+        audioSource.GetSpectrumData(spectrumData, 0, FFTWindow.BlackmanHarris);
+
+        // Simple approach: take average amplitude
+        float sum = 0f;
+        for (int i = 0; i < spectrumData.Length; i++)
+        {
+            sum += spectrumData[i];
+        }
+        float amplitude = sum / spectrumData.Length * sensitivity;
+
+        // Update shader property
+        Material mat = targetRenderer.material;
+        mat.SetFloat("_AudioAmplitude", amplitude);
+    }
+}
