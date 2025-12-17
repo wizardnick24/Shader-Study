@@ -1,0 +1,58 @@
+Shader "Custom/DancefloorFootsteps"
+{
+    Properties
+    {
+        _MainTex("Base Floor Texture", 2D) = "white" {}
+        _FootstepPos("Footstep Position", Vector) = (0,0,0,0)
+        _FootstepTime("Footstep Timer", Float) = 0
+        _RippleSpeed("Ripple Speed", Float) = 1.5
+        _RippleSize("Ripple Max Size", Float) = 2.0
+        _RippleColor("Ripple Color", Color) = (1,0.3,0.7,1)
+    }
+
+    SubShader
+    {
+        Tags { "RenderType"="Opaque" }
+        LOD 200
+
+        Pass
+        {
+            CGPROGRAM
+            #pragma surface surf Standard alpha:fade
+            sampler2D _MainTex;
+            float4 _FootstepPos;
+            float _FootstepTime;
+            float _RippleSpeed;
+            float _RippleSize;
+            fixed4 _RippleColor;
+
+            struct Input
+            {
+                float2 uv_MainTex;
+                float3 worldPos;
+            };
+
+            void surf(Input IN, inout SurfaceOutputStandard o)
+            {
+                fixed4 baseCol = tex2D(_MainTex, IN.uv_MainTex);
+
+                // Distance from footstep
+                float dist = distance(IN.worldPos.xz, _FootstepPos.xz);
+
+                // Footstep ripple: expands over time
+                float ripple = 1.0 - smoothstep(_FootstepTime * _RippleSpeed, 
+                                                _FootstepTime * _RippleSpeed + 0.2, 
+                                                dist / _RippleSize);
+
+                // Apply ripple color
+                fixed4 col = lerp(baseCol, _RippleColor, ripple);
+
+                o.Albedo = col.rgb;
+                o.Alpha = col.a;
+                o.Metallic = 0.0;
+                o.Smoothness = 0.5;
+            }
+            ENDCG
+        }
+    }
+}
