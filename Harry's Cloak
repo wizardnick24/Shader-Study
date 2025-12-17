@@ -1,0 +1,57 @@
+Shader "Custom/SeeThroughCeiling"
+{
+    Properties
+    {
+        _MainTex("Base Texture", 2D) = "white" {}
+        _ColorTint("Tint Color", Color) = (1,1,1,1)
+        _Alpha("Transparency", Range(0,1)) = 0.3
+        _FadeAngle("Fade by Angle", Range(0,1)) = 0.0
+    }
+
+    SubShader
+    {
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
+        LOD 200
+        Blend SrcAlpha OneMinusSrcAlpha
+        ZWrite Off
+        Cull Back
+
+        Pass
+        {
+            CGPROGRAM
+            #pragma surface surf Standard alpha:fade
+            sampler2D _MainTex;
+            fixed4 _ColorTint;
+            float _Alpha;
+            float _FadeAngle;
+
+            struct Input
+            {
+                float2 uv_MainTex;
+                float3 viewDir; // direction from camera to surface
+            };
+
+            void surf(Input IN, inout SurfaceOutputStandard o)
+            {
+                fixed4 texCol = tex2D(_MainTex, IN.uv_MainTex) * _ColorTint;
+
+                // Base transparency
+                float alpha = _Alpha;
+
+                // Optional: fade based on angle to camera (optional)
+                if (_FadeAngle > 0.01)
+                {
+                    float facing = dot(normalize(IN.viewDir), float3(0, -1, 0)); 
+                    alpha *= saturate(1.0 - facing * _FadeAngle);
+                }
+
+                o.Albedo = texCol.rgb;
+                o.Alpha = alpha;
+                o.Metallic = 0.0;
+                o.Smoothness = 0.2;
+            }
+            ENDCG
+        }
+    }
+    FallBack "Transparent/VertexLit"
+}
