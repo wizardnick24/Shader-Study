@@ -1,0 +1,66 @@
+Shader "Custom/IllusionRefractivePanel"
+{
+    Properties
+    {
+        _MainTex("Base Texture", 2D) = "white" {}
+        _RefractionStrength("Refraction Strength", Range(0,0.5)) = 0.2
+        _RotationSpeed("Rotation Speed", Float) = 0.5
+        _ColorTint("Color Tint", Color) = (0.8,0.8,1,0.5)
+    }
+
+    SubShader
+    {
+        Tags { "RenderType"="Transparent" }
+        LOD 200
+        Blend SrcAlpha OneMinusSrcAlpha
+        ZWrite Off
+        Cull Off
+
+        Pass
+        {
+            CGPROGRAM
+            #pragma surface surf Standard alpha:fade
+            sampler2D _MainTex;
+            float _RefractionStrength;
+            float _RotationSpeed;
+            fixed4 _ColorTint;
+            float _Time;
+
+            struct Input
+            {
+                float2 uv_MainTex;
+                float3 viewDir;
+            };
+
+            void surf(Input IN, inout SurfaceOutputStandard o)
+            {
+                // Center UV for rotation illusion
+                float2 uv = IN.uv_MainTex - 0.5;
+
+                // Fake rotation over time
+                float angle = _Time * _RotationSpeed;
+                float s = sin(angle);
+                float c = cos(angle);
+                float2 rotatedUV;
+                rotatedUV.x = uv.x * c - uv.y * s;
+                rotatedUV.y = uv.x * s + uv.y * c;
+
+                rotatedUV += 0.5;
+
+                // Refraction illusion: offset UVs based on view direction
+                float2 refractionUV = rotatedUV + IN.viewDir.xy * _RefractionStrength;
+
+                // Sample texture and apply color tint
+                fixed4 texCol = tex2D(_MainTex, refractionUV);
+                fixed4 col = texCol * _ColorTint;
+
+                o.Albedo = col.rgb;
+                o.Alpha = col.a;
+                o.Metallic = 0.0;
+                o.Smoothness = 0.8;
+            }
+            ENDCG
+        }
+    }
+    FallBack "Transparent/VertexLit"
+}
