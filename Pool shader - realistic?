@@ -1,0 +1,85 @@
+Shader "Custom/InteractivePoolWater"
+{
+    Properties
+    {
+        _BaseColor("Base Color", Color) = (0.2,0.5,0.7,1)   // Pool water color
+        _RippleTex("Ripple Texture", 2D) = "white" {}        // For dynamic ripples
+        _NormalTex("Normal Map", 2D) = "bump" {}            // Small waves
+        _ReflectionTex("Reflection", Cube) = "_Skybox" {}   // Simple reflection
+        _RippleCenter("Ripple Center", Vector) = (0,0,0,0)  // XY of ripple, set by UdonSharp
+        _RippleStrength("Ripple Strength", Float) = 0.0
+        _RippleRadius("Ripple Radius", Float) = 0.0
+    }
+
+    SubShader
+    {
+        Tags { "RenderType"="Transparent" }
+        LOD 200
+        Blend SrcAlpha OneMinusSrcAlpha
+        ZWrite Off
+
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "UnityCG.cginc"
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+            };
+
+            struct v2f
+            {
+                float4 pos : SV_POSITION;
+                float2 uv : TEXCOORD0;
+            };
+
+            sampler2D _NormalTex;
+            sampler2D _RippleTex;
+            samplerCUBE _ReflectionTex;
+
+            float4 _BaseColor;
+            float4 _RippleCenter;
+            float _RippleStrength;
+            float _RippleRadius;
+
+            v2f vert(appdata v)
+            {
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.uv = v.uv;
+                return o;
+            }
+
+            fixed4 frag(v2f i) : SV_Target
+            {
+                // Sample base normal for small waves
+                float3 normal = tex2D(_NormalTex, i.uv).rgb * 2 - 1;
+
+                // Compute distance from ripple center
+                float2 ripplePos = _RippleCenter.xy;
+                float dist = distance(i.uv, ripplePos);
+
+                // Simple ripple effect
+                float ripple = smoothstep(_RippleRadius, 0, dist) * _RippleStrength;
+
+                // Displace normals slightly for ripple
+                normal.xy += ripple;
+
+                // Sample reflection (approximate)
+                float3 reflected = reflect(normalize(float3(0,1,0)), normal);
+                float4 reflection = texCUBE(_ReflectionTex, reflected);
+
+                // Combine base color with reflection and ripple
+                fixed4 color = _BaseColor + reflection * 0.5;
+                color.rgb += ripple * 0.3; // add subtle highlight for ripple
+
+                return color;
+            }
+            ENDCG
+        }
+    }
+}
