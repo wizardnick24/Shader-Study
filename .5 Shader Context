@@ -1,0 +1,355 @@
+1. The Shader → Material → Renderer chain (this is non-negotiable)
+
+In Unity:
+
+Shaders are NEVER attached directly to objects
+
+The chain is always:
+
+Shader → Material → Renderer → Mesh → GameObject
+
+What each part does:
+Shader
+
+A program that runs on the GPU
+
+Defines how pixels and vertices are drawn
+
+Cannot exist visually on its own
+
+Material
+
+A container for a shader
+
+Stores values like:
+
+Colors
+
+Textures
+
+Floats
+
+Toggles
+
+Multiple objects can share one material
+
+Renderer
+
+Component on a GameObject
+
+Applies the material to a mesh
+
+Examples:
+
+MeshRenderer
+
+SkinnedMeshRenderer
+
+TrailRenderer
+
+ParticleSystemRenderer
+
+Mesh
+
+The geometry (floor, wall, cube, etc.)
+
+2. Creating a shader (Unity 2022)
+Step-by-step
+
+Right-click in Project window
+
+Create → Shader
+
+Choose one:
+
+Unlit Shader (best for effects)
+
+Standard Surface Shader
+
+Shader Graph (visual)
+
+Unity creates:
+
+MyShader.shader
+
+
+This file:
+
+Contains HLSL / CG
+
+Is GPU code
+
+Cannot be “attached” to anything yet
+
+3. Creating a material (this is the attachment point)
+Why materials matter
+
+Objects do not know what shaders are.
+They only know materials.
+
+Steps:
+
+Right-click in Project window
+
+Create → Material
+
+Select the material
+
+In the Inspector:
+
+Shader dropdown → select your shader
+
+Now the material uses the shader.
+
+4. Assigning the material to an object
+The Renderer is the bridge
+Steps:
+
+Select your GameObject in the Scene
+
+In the Inspector, find:
+
+MeshRenderer
+
+Look for:
+
+Materials → Element 0
+
+Drag your material into that slot
+
+Now:
+
+The object renders using the shader
+
+The shader executes every frame on the GPU
+
+5. Multiple materials on one object (important)
+
+Some meshes have multiple submeshes.
+
+Example:
+
+Floor + trim
+
+Wall + border
+
+Renderer shows:
+
+Materials
+  Element 0
+  Element 1
+
+
+Each element:
+
+Can use a different material
+
+Can use a different shader
+
+6. Editing shader values (how visuals change)
+
+Shader properties appear in the Material Inspector.
+
+Example shader properties:
+
+_Color ("Color", Color) = (1,1,1,1)
+_Emission ("Glow", Range(0,5)) = 1
+
+
+In the material:
+
+You tweak sliders
+
+GPU updates instantly
+
+No script needed
+
+This is how static effects work.
+
+7. Runtime control (UdonSharp / scripts)
+Materials can be modified at runtime
+
+UdonSharp example:
+
+public Material floorMat;
+
+void Update()
+{
+    floorMat.SetFloat("_Emission", 2.5f);
+}
+
+
+This:
+
+Pushes values into the shader
+
+Does NOT recompile the shader
+
+Is extremely fast
+
+8. Shared vs Instance materials (CRITICAL)
+Shared Material (default)
+renderer.sharedMaterial
+
+
+All objects using this material update together
+
+Best for:
+
+Floors
+
+Walls
+
+Global effects
+
+Instance Material
+renderer.material
+
+
+Unity silently creates a copy
+
+Uses more memory
+
+Dangerous if abused
+
+Rule:
+
+Use shared materials unless you absolutely need per-object variation.
+
+9. Attaching shaders to “invisible” objects
+
+You mentioned illusion objects earlier.
+
+Important truth:
+
+Shaders cannot exist without geometry
+
+“Invisible” still means:
+
+A quad
+
+A cube
+
+A plane
+
+A low-poly mesh
+
+Common tricks:
+
+1×1 quad
+
+Very thin cube
+
+Backface-only rendering
+
+Transparent material
+
+10. Skybox shaders (special case)
+
+Skyboxes:
+
+Are materials
+
+Applied in:
+
+Lighting → Environment → Skybox Material
+
+
+They are NOT attached to GameObjects.
+
+11. Particle shaders (another special case)
+
+Particles:
+
+Use a ParticleSystem
+
+Renderer has its own material slot
+
+Shader must support particles (alpha, soft edges)
+
+12. Post-processing style shaders (VRChat limits)
+
+In VRChat:
+
+You cannot use true camera post-processing
+
+You simulate it with:
+
+World-space quads
+
+Screen-facing planes
+
+Transparent overlays
+
+13. How this scales to 300 shaders
+
+You do NOT:
+
+Attach 300 shaders to objects
+
+You DO:
+
+Create:
+
+300 shaders
+
+100 materials
+
+20–30 active at once
+
+You swap:
+
+Materials
+
+Shader keywords
+
+Float flags
+
+14. Mental model (memorize this)
+
+Shaders define behavior
+Materials define configuration
+Renderers apply materials
+Objects only know renderers
+
+Once you understand that chain, everything else becomes mechanical.
+
+15. Common beginner mistakes (avoid these)
+
+❌ Trying to drag shaders onto objects
+❌ Editing renderer.material every frame
+❌ One script per shader
+❌ Too many transparent layers
+❌ Unique materials for every tile
+
+16. What I recommend you do next (hands-on)
+
+Create:
+
+One cube
+
+One custom unlit shader
+
+One material
+
+Attach the material
+
+Change a color
+
+Change it via UdonSharp
+
+Swap the material at runtime
+
+Do that once and everything clicks.
+
+If you want, next I can:
+
+Walk you through one complete shader → material → UdonSharp → runtime pipeline
+
+Design a shader activation manager
+
+Show how DJ panels switch materials live
+
+Explain Quest vs PC shader rules
+
+Just tell me which step you want next.
