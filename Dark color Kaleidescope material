@@ -1,0 +1,87 @@
+Shader "Custom/AudioReactiveKaleidoscopeColors"
+{
+    Properties
+    {
+        _AudioLevel("Audio Level", Float) = 0.0            // Driven by audio
+        _RotationSpeed("Rotation Speed", Float) = 0.1     // Rotation of kaleidoscope
+        _Symmetry("Symmetry", Float) = 6.0                // Number of segments
+        _Color1("Primary Color", Color) = (0.3,0,0.5,1)   // Dark purple
+        _Color2("Secondary Color", Color) = (0,0,0.5,1)   // Dark blue
+        _Color3("Accent Color", Color) = (1,0.3,0.7,1)    // Pink
+    }
+
+    SubShader
+    {
+        Tags { "RenderType"="Opaque" }
+        Cull Off
+        ZWrite Off
+        Lighting Off
+
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "UnityCG.cginc"
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+            };
+
+            struct v2f
+            {
+                float4 pos : SV_POSITION;
+                float3 dir : TEXCOORD0;
+            };
+
+            float _AudioLevel;
+            float _RotationSpeed;
+            float _Symmetry;
+            fixed4 _Color1;
+            fixed4 _Color2;
+            fixed4 _Color3;
+            float _Time;
+
+            v2f vert(appdata v)
+            {
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.dir = normalize(v.vertex.xyz);
+                return o;
+            }
+
+            fixed4 frag(v2f i) : SV_Target
+            {
+                float3 dir = i.dir;
+
+                // Convert to polar coordinates
+                float angle = atan2(dir.z, dir.x);
+                float radius = length(dir.xz);
+
+                // Apply kaleidoscope symmetry
+                angle = fmod(angle * _Symmetry, 6.28318); // 2*PI
+
+                // Base procedural pattern
+                float pattern = sin(radius * 10.0 + angle * 5.0 + _Time * _RotationSpeed);
+
+                // Map pattern to colors
+                fixed4 col;
+                if(pattern < -0.33)
+                    col = _Color1;
+                else if(pattern < 0.33)
+                    col = _Color2;
+                else
+                    col = _Color3;
+
+                // Audio-modulated brightness
+                float brightness = 1.0 + _AudioLevel * 0.8;
+                col.rgb *= brightness;
+
+                col.a = 1.0;
+                return col;
+            }
+            ENDCG
+        }
+    }
+}
