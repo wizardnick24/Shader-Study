@@ -1,0 +1,55 @@
+using UdonSharp;
+using UnityEngine;
+using VRC.SDKBase;
+using VRC.Udon;
+
+public class AudioReactiveLaser : UdonSharpBehaviour
+{
+    public AudioSource audioSource;       // Source of the music
+    public LineRenderer laser;            // Laser GameObject
+    public float horizontalRange = 45f;   // Max horizontal rotation (degrees)
+    public float verticalRange = 30f;     // Max vertical rotation (degrees)
+    public float sensitivity = 20f;       // Amplify response
+    public float offsetAngle = 24f;       // Stage offset left/right
+    public bool mirror = false;           // Mirror on other side
+
+    private float[] spectrum = new float[64]; // FFT spectrum
+
+    void Update()
+    {
+        // Get audio spectrum data from AudioSource
+        audioSource.GetSpectrumData(spectrum, 0, FFTWindow.BlackmanHarris);
+
+        // Example: Use first few bins for horizontal, higher bins for vertical
+        float horizontalInput = 0f;
+        float verticalInput = 0f;
+
+        for (int i = 0; i < spectrum.Length / 2; i++)
+        {
+            horizontalInput += spectrum[i]; // Low freq → horizontal movement
+        }
+
+        for (int i = spectrum.Length / 2; i < spectrum.Length; i++)
+        {
+            verticalInput += spectrum[i];   // High freq → vertical movement
+        }
+
+        horizontalInput *= sensitivity;
+        verticalInput *= sensitivity;
+
+        // Clamp angles to max ranges
+        horizontalInput = Mathf.Clamp(horizontalInput, -horizontalRange, horizontalRange);
+        verticalInput = Mathf.Clamp(verticalInput, -verticalRange, verticalRange);
+
+        // Apply stage offset for left/right duplication
+        float yRotation = horizontalInput + (mirror ? -offsetAngle : offsetAngle);
+        float xRotation = verticalInput;
+
+        // Rotate laser to point in direction
+        laser.transform.localRotation = Quaternion.Euler(-xRotation, yRotation, 0);
+
+        // Optional: Extend laser line forward
+        laser.SetPosition(0, Vector3.zero);          // Base of laser
+        laser.SetPosition(1, laser.transform.forward * 50f); // 50 units forward
+    }
+}
